@@ -4,7 +4,7 @@ let currentDay = null;
 let todayDate = moment().format("M/DD/YYYY");
 
 let forecastDisplay = "";
-
+let currentDisplay = "";
 
 
 
@@ -22,32 +22,43 @@ function getAPI(city) {
   .then(function(data) {
     console.log(data);
     displayForecast(data.list)
-    data.list.forEach(function(tsObj){
+    displayCurrentWeather(data.list)
+    // data.list.forEach(function(tsObj){
 
-      // Makes a moment date object for each record
-      const dateObj = moment.unix(tsObj.dt)
+    //   // Makes a moment date object for each record
+    //   const dateObj = moment.unix(tsObj.dt)
       
-      // Generates the day # for the day in the date object
-      const dateNum = dateObj.format("DDD")
+    //   // Generates the day # for the day in the date object
+    //   const dateNum = dateObj.format("DDD")
       
-      // If the current date in tsObj hasn't had a record put into weatherDays, do that now
-      // Then skip over all other records for this day
-      if (dateNum !== currentDay && weatherDays.length < 6){
-        weatherDays.push(tsObj)
-        currentDay = dateNum
+    //   // If the current date in tsObj hasn't had a record put into weatherDays, do that now
+    //   // Then skip over all other records for this day
+    //   if (dateNum !== currentDay && weatherDays.length < 6){
+    //     weatherDays.push(tsObj)
+    //     currentDay = dateNum
         
         
-      }
+      })
+    }
 
-    })
-      
-    });
-  }
+function displayCurrentWeather(data) {
+  currentDisplay = `
+    <div id="forecast-icon">
+      <img src="https://openweathermap.org/img/w/${data[0].weather[0].icon}.png">
+    </div>
+    <div>
+      <p> Temperature: ${data[0].main.temp} F </p>
+      <p> Humidity: ${data[0].main.humidity}% </p>
+      <p> Wind Speed: ${data[0].wind.speed} MPH </p>
+    </div>`
+
+    $("#weather-items").append(currentDisplay);
+}
 
 // Displays 5-day forecast (loop increments by 8 to exclude current day)
-function displayForecast(data){
+function displayForecast(data) {
   
-  for (let i = 1; i < data.length; i += 8){
+  for (let i = 1; i < data.length; i += 8) {
 
     forecastDisplay += `
     <div class="col-2">
@@ -72,7 +83,7 @@ $("#primary").on("click", function citySearch(){
   // Adds name of city searched and current date to heading of current weather section
   var cityHeading = $("<h2>");
   cityHeading.text(citySearch + " " + "(" + todayDate + ")")
-  $("#cityDate").append(cityHeading)
+  $("#cityDate").prepend(cityHeading)
 
   getAPI(citySearch)
   

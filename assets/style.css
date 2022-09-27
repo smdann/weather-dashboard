@@ -1,5 +1,5 @@
 header {
-  background-image: linear-gradient(to left, rgb(0, 66, 197), rgb(26, 26, 48));
+  background-image: linear-gradient(to left, rgb(18, 102, 219), rgb(26, 26, 48));
   color: rgb(255, 255, 255);
   text-align: center;
 
@@ -13,7 +13,7 @@ button {
 }
 
 .col-2 {
-  background-color: rgb(26, 26, 48);
+  background-color: rgb(18, 102, 219);
   color: rgb(255, 255, 255);
   padding: 10px;
   margin: 10px;
