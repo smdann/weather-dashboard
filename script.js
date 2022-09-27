@@ -5,10 +5,11 @@ let todayDate = moment().format("M/DD/YYYY");
 
 let forecastDisplay = "";
 let currentDisplay = "";
+let cityButtons = "";
 
 
 
-// Makes the API call
+// Makes the API call and returns the json data for specified city
 function getAPI(city) {
 
   const queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
@@ -21,26 +22,15 @@ function getAPI(city) {
 
   .then(function(data) {
     console.log(data);
-    displayForecast(data.list)
+    
     displayCurrentWeather(data.list)
-    // data.list.forEach(function(tsObj){
+    displayForecast(data.list)
+    
+       
+  })
+}
 
-    //   // Makes a moment date object for each record
-    //   const dateObj = moment.unix(tsObj.dt)
-      
-    //   // Generates the day # for the day in the date object
-    //   const dateNum = dateObj.format("DDD")
-      
-    //   // If the current date in tsObj hasn't had a record put into weatherDays, do that now
-    //   // Then skip over all other records for this day
-    //   if (dateNum !== currentDay && weatherDays.length < 6){
-    //     weatherDays.push(tsObj)
-    //     currentDay = dateNum
-        
-        
-      })
-    }
-
+// Displays the current weather data for the specified city
 function displayCurrentWeather(data) {
   currentDisplay = `
     <div id="forecast-icon">
@@ -50,7 +40,8 @@ function displayCurrentWeather(data) {
       <p> Temperature: ${data[0].main.temp} F </p>
       <p> Humidity: ${data[0].main.humidity}% </p>
       <p> Wind Speed: ${data[0].wind.speed} MPH </p>
-    </div>`
+    </div>
+    `
 
     $("#weather-items").append(currentDisplay);
 }
@@ -69,10 +60,24 @@ function displayForecast(data) {
         <p> Temperature: ${data[i].main.temp} F </p>
         <p> Humidity: ${data[i].main.humidity}% </p>
         <p> Wind Speed: ${data[i].wind.speed} MPH </p>
-    </div>`
+    </div>
+    `
   }
   $(".forecast-row").append(forecastDisplay);
 }
+
+// Store searched city in local storage and add to secondary button
+function storeCity(citySearch) {
+  localStorage.setItem("City Name", citySearch)
+
+  cityButtons = `
+    <button type="button" class="btn btn-secondary" id="store1">${citySearch}</button>
+  `
+  $("#storeCity").append(cityButtons);
+  
+}
+
+
 
 // Event listener on primary search button to initiate API GET with city name
 $("#primary").on("click", function citySearch(){
@@ -86,6 +91,7 @@ $("#primary").on("click", function citySearch(){
   $("#cityDate").prepend(cityHeading)
 
   getAPI(citySearch)
+  storeCity(citySearch)
   
 })
 

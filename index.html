@@ -18,33 +18,31 @@
   <title>Weather Dashboard</title>
 </head>
 <body>
+  <!-- Header -->
   <header class="container-fluid">
     <h1>Weather Dashboard</h1>
   </header>
 
   <div class="container-fluid">
     <div class="row">
+      <!-- City Search Area -->
       <div class="col-3 text-left">
         <h2>Search for a City:</h2>
         <input type="city" class="form-control" id="enterCity" placeholder="Minneapolis">
         <div id="lineBreak"></div>
         <button type="button" class="btn btn-primary" id="primary">Search</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
-        <button type="button" class="btn btn-secondary" id="store1">City</button>
+        <!-- Stored City Buttons -->
+        <div id="storeCity"></div>
       </div>
 
+      <!-- Current Weather Area -->
       <div class="col-9">
-        <div class="current-weather">
+        <div class="current-weather border border-dark">
           <div id="cityDate">
             <div id="weather-items"></div>
           </div>
           
+        <!-- 5-Day Forecast Area -->
         </div>
           <h4>5-Day Forecast:</h4>
           <div class="row forecast-row">
