@@ -1,16 +1,12 @@
 var APIKey = "66480ffae0c528a21ade847c422f34ac";
-var city;
 const weatherDays = [];
 let currentDay = null;
-city = "Minneapolis";
 
-// var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
-// api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
 
 
 
 // Makes the API call
-function getAPI() {
+function getAPI(city) {
 
   const queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey;
 
@@ -42,8 +38,17 @@ function getAPI() {
     });
   }
 
-getAPI()
 
+$("#primary").on("click", function citySearch(){
+  console.log("button clicked");
+  var citySearch = $("#enterCity").val();
+  console.log(citySearch)
+  getAPI(citySearch)
+  
+})
+
+
+  
 
 /* Remember that the query URL won't work automatically as it's written. You'll need to adjust your application to accept user input, to store in the city variable that you've created. */
 
