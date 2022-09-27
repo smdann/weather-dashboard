@@ -1,6 +1,20 @@
 header {
-  background-image: linear-gradient(to left, rgb(55, 43, 119), rgb(118, 91, 240));
+  background-image: linear-gradient(to left, rgb(0, 66, 197), rgb(26, 26, 48));
   color: rgb(255, 255, 255);
   text-align: center;
 
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  align-self: center;
+}
+
+.col-2 {
+  background-color: rgb(26, 26, 48);
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  margin: 10px;
 }
