@@ -74,13 +74,26 @@ function storeCity(citySearch) {
     <button type="button" class="btn btn-secondary" id="store1">${citySearch}</button>
   `
   $("#storeCity").append(cityButtons);
-  
+
+  // Event listener on secondary buttons
+  $("#store1").on("click", function getCity() {
+    console.log("secondary button clicked");
+    localStorage.getItem(citySearch)
+    console.log(citySearch)
+
+    getAPI(citySearch)
+    // Adds city name & date to heading of current weather
+    var cityHeading = $("<h2>");
+    cityHeading.text(citySearch + " " + "(" + todayDate + ")")
+    $("#cityDate").prepend(cityHeading)
+
+
+  })
+
 }
 
-
-
 // Event listener on primary search button to initiate API GET with city name
-$("#primary").on("click", function citySearch(){
+$("#primary").on("click", function citySearch() {
   console.log("button clicked");
   var citySearch = $("#enterCity").val();
   console.log(citySearch)
