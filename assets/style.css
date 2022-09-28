@@ -1,15 +1,26 @@
+/* Main Dashboard Header */
 header {
   background-image: linear-gradient(to left, rgb(18, 102, 219), rgb(26, 26, 48));
   color: rgb(255, 255, 255);
   text-align: center;
-
 }
 
+/* Primary and Secondary Buttons */
 button {
   width: 100%;
   padding: 10px;
   margin: 10px;
   align-self: center;
+}
+
+/* Current Weather Section */
+.current-weather {
+  padding: 10px
+}
+
+/* 5-Day Forecast Section */
+h4 {
+  margin-top: 20px;
 }
 
 .col-2 {
