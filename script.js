@@ -1,6 +1,6 @@
 var APIKey = "66480ffae0c528a21ade847c422f34ac";
-const weatherDays = [];
-let currentDay = null;
+// const weatherDays = [];
+// let currentDay = null;
 let todayDate = moment().format("M/DD/YYYY");
 
 let forecastDisplay = "";
@@ -23,15 +23,21 @@ function getAPI(city) {
   .then(function(data) {
     console.log(data);
     
-    displayCurrentWeather(data.list)
+    displayCurrentWeather(data.list, data.city.name)
     displayForecast(data.list)
+    storeCity(data.city.name)
     
        
   })
 }
 
 // Displays the current weather data for the specified city
-function displayCurrentWeather(data) {
+function displayCurrentWeather(data, citySearch) {
+  $("#weather-items").empty()
+  var cityHeading = $("#cityDate");
+  cityHeading.html("")
+  cityHeading.text(citySearch + " " + "(" + todayDate + ")")
+
   currentDisplay = `
     <div id="forecast-icon">
       <img src="https://openweathermap.org/img/w/${data[0].weather[0].icon}.png">
@@ -48,32 +54,55 @@ function displayCurrentWeather(data) {
 
 // Displays 5-day forecast (loop increments by 8 to exclude current day)
 function displayForecast(data) {
-  
-  for (let i = 1; i < data.length; i += 8) {
+  const forecastContainer = document.getElementById("forecast-row");
+  forecastContainer.innerHTML = " ";
 
-    forecastDisplay += `
-    <div class="col-2">
-    <h5> ${data[i].dt_txt} </h5>
-      <div id="forecast-icon">
-      <img src="https://openweathermap.org/img/w/${data[i].weather[0].icon}.png">
-      </div>
-        <p> Temperature: ${data[i].main.temp} F </p>
-        <p> Humidity: ${data[i].main.humidity}% </p>
-        <p> Wind Speed: ${data[i].wind.speed} MPH </p>
-    </div>
-    `
-  }
-  $(".forecast-row").append(forecastDisplay);
+  for (let i = 1; i < data.length; i += 8) {
+    const col = document.createElement("div");
+    col.setAttribute("class", "col-2");
+    const txt = document.createElement("h5");
+    const icon = document.createElement("img");
+    icon.setAttribute("src", "https://openweathermap.org/img/w/" + 
+      data[i].weather[0].icon + ".png");
+    const temp = document.createElement("p");
+    const humidity = document.createElement("p");
+    const wind = document.createElement("p");
+
+    txt.textContent = data[i].dt_txt;
+    temp.textContent = `Temperature: ${data[i].main.temp} F`;
+    humidity.textContent = `Humidity: ${data[i].main.humidity}%`;
+    wind.textContent = `Wind Speed: ${data[i].wind.speed} MPH`;
+
+    col.append(txt,icon,temp,humidity,wind);
+    forecastContainer.append(col);
+}
+
+ 
+  // for (let i = 1; i < data.length; i +=8) {
+  //   forecastDisplay += `
+  //   <div class="col-2">
+  //   <h5> ${data[i].dt_txt} </h5>
+  //     <div id="forecast-icon">
+  //     <img src="https://openweathermap.org/img/w/${data[i].weather[0].icon}.png">
+  //     </div>
+  //       <p> Temperature: ${data[i].main.temp} F </p>
+  //       <p> Humidity: ${data[i].main.humidity}% </p>
+  //       <p> Wind Speed: ${data[i].wind.speed} MPH </p>
+  //   </div>
+  //   `
+  // }
+  // $("#forecast-row").append(forecastDisplay);
+
+ 
 }
 
 // Store searched city in local storage and add to secondary button
 function storeCity(citySearch) {
   localStorage.setItem("City Name", citySearch)
 
-  cityButtons = `
-    <button type="button" class="btn btn-secondary" id="store1">${citySearch}</button>
-  `
-  $("#storeCity").append(cityButtons);
+  cityButtons = 
+    `<button type="button" class="btn btn-secondary" id="store1">${citySearch}</button>`;
+    $("#storeCity").append(cityButtons);
 
   // Event listener on secondary buttons
   $("#store1").on("click", function getCity() {
@@ -82,10 +111,12 @@ function storeCity(citySearch) {
     console.log(citySearch)
 
     getAPI(citySearch)
+    
     // Adds city name & date to heading of current weather
-    var cityHeading = $("<h2>");
-    cityHeading.text(citySearch + " " + "(" + todayDate + ")")
-    $("#cityDate").prepend(cityHeading)
+    // var cityHeading = $("");
+  
+    // cityHeading.text(citySearch + " " + "(" + todayDate + ")")
+    // $("#cityDate").prepend(cityHeading)
 
 
   })
@@ -99,12 +130,11 @@ $("#primary").on("click", function citySearch() {
   console.log(citySearch)
 
   // Adds name of city searched and current date to heading of current weather section
-  var cityHeading = $("<h2>");
-  cityHeading.text(citySearch + " " + "(" + todayDate + ")")
-  $("#cityDate").prepend(cityHeading)
-
+  // var cityHeading = $("#cityDate");
+  // cityHeading.html("")
+  // cityHeading.text(citySearch + " " + "(" + todayDate + ")")
   getAPI(citySearch)
-  storeCity(citySearch)
+ 
   
 })
 
@@ -112,24 +142,11 @@ $("#primary").on("click", function citySearch() {
   
 
   
-  
+// Put event listener for secondary buttons outside function
 
-
-
-// I WANT to see the weather outlook for multiple cities
-
-// GIVEN a weather dashboard with form inputs
 
 // WHEN I search for a city
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
-
-
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the wind speed
-
-
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 
 
 // WHEN I click on a city in the search history
@@ -140,14 +157,3 @@ $("#primary").on("click", function citySearch() {
 
 
 
-
-
-/*
-function addToDOM(tag, content, appendTo){
-  const elem = document.createElement(tag)
-  elem.textContent = content
-  document.querySelector(appendTo).appendChild(elem)
-}
-*/
-
-//  addToDOM("h3", data[i].user.login, "#issues")
