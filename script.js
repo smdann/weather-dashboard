@@ -5,7 +5,7 @@ let currentDisplay = "";
 let cityButton = "";
 
 
-// Makes the API call and returns the json data for specified city
+// Makes the API call and returns the json data for the specified city
 function getAPI(city) {
 
   const queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
@@ -17,7 +17,6 @@ function getAPI(city) {
   })
 
   .then(function(data) {
-    console.log(data);
     
     displayCurrentWeather(data.list, data.city.name)
     displayForecast(data.list)
@@ -47,7 +46,7 @@ function displayCurrentWeather(data, citySearch) {
     $("#weather-items").append(currentDisplay);
 }
 
-// Displays 5-day forecast (loop increments by 8 to exclude current day)
+// Displays the 5-day forecast (loop increments by 8 to exclude current day)
 function displayForecast(data) {
   const forecastContainer = document.getElementById("forecast-row");
   forecastContainer.innerHTML = " ";
@@ -74,7 +73,7 @@ function displayForecast(data) {
   }
 }
 
-// Store searched city in local storage and add to secondary button
+// Stores the searched city in local storage and adds to a secondary button
 function storeCity(citySearch) {
   localStorage.setItem("City Name", citySearch)
 
@@ -86,13 +85,11 @@ function storeCity(citySearch) {
   
 }
 
-// Event listener on secondary buttons
+// Event listener for secondary buttons
 $("#storeCity").on("click", function getCity(cityButton) {
   console.log("secondary button clicked");
-  // cityButtons = [];
-  var gotCity = localStorage.getItem("City Name")
-  // console.log(gotCity)
-  console.log(cityButton);
+  var getCity = localStorage.getItem("City Name");
+  console.log(getCity);
   
   getAPI(cityButton.target.innerHTML)
   
