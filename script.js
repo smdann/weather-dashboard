@@ -8,7 +8,7 @@ let cityButton = "";
 // Makes the API call and returns the json data for the specified city
 function getAPI(city) {
 
-  const queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
+  const queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIKey + "&units=imperial";
 
   fetch(queryURL)
   
